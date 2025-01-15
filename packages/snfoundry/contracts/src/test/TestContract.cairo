@@ -1,6 +1,6 @@
 use contracts::YourContract::{IYourContractDispatcher, IYourContractDispatcherTrait};
-use openzeppelin_token::erc20::interface::{IERC20Dispatcher, IERC20DispatcherTrait};
-use openzeppelin_utils::serde::SerializedAppend;
+use openzeppelin::token::erc20::interface::{IERC20Dispatcher, IERC20DispatcherTrait};
+use openzeppelin::utils::serde::SerializedAppend;
 use snforge_std::{CheatSpan, ContractClassTrait, DeclareResultTrait, cheat_caller_address, declare};
 use starknet::{ContractAddress, contract_address_const};
 
@@ -36,7 +36,6 @@ fn test_set_greetings() {
 }
 
 #[test]
-#[fork("SEPOLIA_LATEST")]
 fn test_transfer() {
     let user = OWNER();
     let eth_contract_address = contract_address_const::<ETH_CONTRACT_ADDRESS>();
