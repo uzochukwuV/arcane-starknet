@@ -40,11 +40,17 @@ pub trait IArcane<ContractState> {
         nft_contract_address: ContractAddress,
         coin_contract_address: ContractAddress,
         token_id: u256,
-        coin_type: felt252,
+        coin_type: u128,
     );
 
-    fn create_game(ref self: ContractState);
+    fn create_game(ref self: ContractState) ;
+    fn get_lucky_number(self: @ContractState);
+    fn get_game_pool(self: @ContractState);
+    fn get_game_id(self: @ContractState);
+    
     fn play(ref self: ContractState, guess: u128, game_id: u128, amount: u256, coin_type: u128,coin_contract_address:ContractAddress);
+    fn end_game(ref self: ContractState, game_id:u128);
+    fn get_reward(ref self: ContractState, game_id:u128);
 }
 
 
@@ -103,9 +109,12 @@ pub mod Arcane {
         tokens: u256,
         games: u128,
         guesses: Map::<ContractAddress, u128>,
+        players_stakes: Map::<ContractAddress, u128>,
+        players: Vec<ContractAddress>,
         game_state: bool,
         game_pool: u128,
         winner_pool: u128,
+        lucky_number: u128,
         pragma_vrf_contract_address: ContractAddress,
         last_random_number: felt252,
         min_block_number_storage: u64,
@@ -117,6 +126,10 @@ pub mod Arcane {
     const ETH_USD: felt252 = 19514442401534788;
     const STRK_USDT: felt252 = 6004514686061859652;
     const EIGHT_DECIMAL_FACTOR: u256 = 100000000;
+    const ETH: u128 = 1;
+    const STRK: u128 = 1;
+    const ARC: u128 = 1;
+
 
 
     #[derive(Drop, starknet::Event)]
@@ -184,11 +197,38 @@ pub mod Arcane {
 
     #[abi(embed_v0)]
     impl ArcaneImpl of super::IArcane<ContractState> {
+        fn end_game(ref self: ContractState, game_id:u128){
+            self.ownable.assert_only_owner();
+            let lucky_number: u256 = self.last_random_number.read().into() % 9 + 1;
+            self.lucky_number.write(lucky_number.try_into().unwrap());
+
+            let mut game_pool:u128 = 0;
+            let mut win_pool :u128 = 0;
+            for i in 0..self.players.len() {
+                let playerGuess = self.guesses.entry(get_caller_address()).read();
+                let playerStake = self.players_stakes.entry(get_caller_address()).read();
+
+                game_pool += playerStake;
+                if playerGuess == lucky_number.try_into().unwrap(){
+                    win_pool += playerStake;
+                }
+            };
+            self.game_state.write(false);
+            self.game_pool.write(game_pool);
+            self.winner_pool.write(win_pool)
+
+        }
+    fn get_reward(ref self: ContractState, game_id:u128){}
         fn create_game(ref self: ContractState) {
             self.ownable.assert_only_owner();
             let game = self.games.read();
             self.games.write(game + 1);
         }
+
+    
+    fn get_lucky_number(self: @ContractState){}
+    fn get_game_pool(self: @ContractState){}
+    fn get_game_id(self: @ContractState){}
 
         fn play(
             ref self: ContractState, guess: u128, game_id: u128, amount: u256, coin_type: u128,coin_contract_address:ContractAddress
@@ -197,7 +237,9 @@ pub mod Arcane {
             assert!(self.game_state.read(), "NOt_ACTIVE");
 
             self.guesses.entry(get_caller_address()).write(guess);
-            if coin_type == 1 {
+            self.players_stakes.entry(get_caller_address()).write(amount.try_into().unwrap());
+            self.players.append().write(get_caller_address());
+            if coin_type == ETH {
                 let eth_price = self.get_asset_price(ETH_USD).into();
                 let eth_needed = amount * EIGHT_DECIMAL_FACTOR / eth_price;
                 let eth_dispatcher = ERC20ABIDispatcher {
@@ -213,7 +255,7 @@ pub mod Arcane {
                     game_id: game_id,
                     amount: amount,
                 });
-            } else if coin_type == 2 {
+            } else if coin_type == STRK {
                 let strk_price = self.get_asset_price(ETH_USD).into();
                 let strk_needed = amount * EIGHT_DECIMAL_FACTOR / strk_price;
                 let strk_dispatcher = ERC20ABIDispatcher {
@@ -229,7 +271,7 @@ pub mod Arcane {
                     game_id: game_id,
                     amount: amount,
                 });
-            } else if coin_type == 3 {
+            } else if coin_type == ARC {
                 let arc_needed = amount * EIGHT_DECIMAL_FACTOR / USDT_TO_ARC;
                 let arc_dispatcher = ERC20ABIDispatcher { contract_address: coin_contract_address };
                 arc_dispatcher.transfer_from(get_caller_address(), get_contract_address(), arc_needed - BUYREWARD);
@@ -305,14 +347,14 @@ pub mod Arcane {
             nft_contract_address: ContractAddress,
             coin_contract_address: ContractAddress,
             token_id: u256,
-            coin_type: felt252,
+            coin_type: u128,
         ) {
             let nft = ERC721ABIDispatcher { contract_address: nft_contract_address };
 
             assert!(nft.owner_of(token_id) == get_contract_address(), "NOT_LISTED");
             let owner = self.listings.entry(token_id).read();
             let nft_price = self.listing_to_price.entry(token_id).read().try_into().unwrap();
-            if coin_type == 1 {
+            if coin_type == ETH {
                 let eth_price = self.get_asset_price(ETH_USD).into();
                 let eth_needed = nft_price * EIGHT_DECIMAL_FACTOR / eth_price;
 
@@ -338,7 +380,7 @@ pub mod Arcane {
                             coin_type: 1,
                         },
                     )
-            } else if coin_type == 2 {
+            } else if coin_type == STRK {
                 let strk_price = self.get_asset_price(STRK_USDT).into();
 
                 let strk_needed = nft_price * EIGHT_DECIMAL_FACTOR / strk_price;
@@ -365,7 +407,7 @@ pub mod Arcane {
                             coin_type: 2,
                         },
                     )
-            } else if coin_type == 3 {
+            } else if coin_type == ARC {
                 let arc_needed = nft_price * EIGHT_DECIMAL_FACTOR / USDT_TO_ARC;
                 let arc_dispatcher = ERC20ABIDispatcher { contract_address: coin_contract_address };
                 arc_dispatcher.transfer_from(get_caller_address(), owner, arc_needed - BUYREWARD);
