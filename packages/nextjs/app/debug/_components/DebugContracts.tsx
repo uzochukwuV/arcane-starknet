@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { ContractUI } from "~~/app/debug/_components/contract";
 import { ContractName } from "~~/utils/scaffold-stark/contract";
@@ -16,8 +16,11 @@ export function DebugContracts() {
     contractNames[0],
     { initializeWithValue: false },
   );
+  
 
   useEffect(() => {
+    console.log(selectedContract);
+    
     if (!contractNames.includes(selectedContract)) {
       setSelectedContract(contractNames[0]);
     }
@@ -50,7 +53,7 @@ export function DebugContracts() {
             <ContractUI
               key={contractName}
               contractName={contractName}
-              className={contractName === selectedContract ? "" : "hidden"}
+              className={contractName ===selectedContract  ? "" : "hidden"}
             />
           ))}
         </>

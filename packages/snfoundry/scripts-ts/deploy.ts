@@ -57,7 +57,7 @@ const deployScriptArcCoin = async (): Promise<void> => {
 
 const deployScriptArcNFT = async (): Promise<void> => {
   await deployContract({
-    contract: "ArcNFT",
+    contract: "ArcNft",
     constructorArgs: {
       owner: "0x038a0b7663567562c39b52358bbe2a68c66e0338d4fb3a8cbf00d84454d918f9",
     },
@@ -66,6 +66,9 @@ const deployScriptArcNFT = async (): Promise<void> => {
     },
   });
 };
+
+
+
 
 const deployScript = async (): Promise<void> => {
   await deployContract({
@@ -77,22 +80,13 @@ const deployScript = async (): Promise<void> => {
   });
 };
 
-// deployScript()
-//   .then(async () => {
-//     executeDeployCalls()
-//       .then(() => {
-//         exportDeployments();
-//         console.log(green("All Setup Done"));
-//       })
-//       .catch((e) => {
-//         console.error(e);
-//         process.exit(1); // exit with error so that non subsequent scripts are run
-//       });
-//   })
-//   .catch(console.error);
+deployScriptArcCoin()
+
 
 
   deployScriptArcNFT()
+  .then(()=>deployScript())
+  .then(()=>deployScriptArcCoin())
   .then(async () => {
     executeDeployCalls()
       .then(() => {

@@ -2,7 +2,7 @@
 // Compatible with OpenZeppelin Contracts for Cairo ^0.18.0
 
 #[starknet::contract]
-pub mod ArcNFT {
+pub mod ArcNft {
     use openzeppelin::access::ownable::OwnableComponent;
     use openzeppelin::introspection::src5::SRC5Component;
     use openzeppelin::token::erc721::ERC721Component;
@@ -101,6 +101,7 @@ pub mod ArcNFT {
         ) {
             self.ownable.assert_only_owner();
             self.erc721.safe_mint(recipient, token_id, data);
+            
         }
 
         #[external(v0)]

@@ -1,0 +1,1 @@
+yarn deploy --network sepolia --fee strk

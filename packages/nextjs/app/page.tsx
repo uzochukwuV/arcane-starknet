@@ -2,14 +2,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { ConnectedAddress } from "~~/components/ConnectedAddress";
 import { useAccount } from "~~/hooks/useAccount";
-import { Call, CallContractResponse, CallData } from "starknet";
 import deployedContracts from "~~/contracts/deployedContracts";
-
-
+import { useScaffoldReadContract } from "~~/hooks/scaffold-stark/useScaffoldReadContract";
+import { Listings } from "~~/my_components/listings";
 
 
 const Home = () => {
-  
+ 
   return (
     <div className="flex items-center flex-col flex-grow pt-10">
       <div className="px-5">
@@ -21,7 +20,7 @@ const Home = () => {
        
       </div>
 
-      
+      <Listings />
     </div>
   );
 };
