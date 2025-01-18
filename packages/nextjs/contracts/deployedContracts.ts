@@ -7,7 +7,7 @@ const deployedContracts = {
   sepolia: {
     ArcNft: {
       address:
-        "0x33992e83818f860d91518438c9855fcf05471a731433f7216d8b08e8df8257a",
+        "0x11a3d9e105449c29f8b3884d75843bde93f74cec6a14197e41efe995a3fc124",
       abi: [
         {
           type: "impl",
@@ -823,7 +823,7 @@ const deployedContracts = {
     },
     ArcCoin: {
       address:
-        "0x349b3d05fd4d942547a7a269b151bb44558a5d575a066dbf0a0ee4ebe8b7e1d",
+        "0x15dbe7e08930b39a261fc46e46df81a601fc3517c6e203e365b3e82545b5409",
       abi: [
         {
           type: "struct",
@@ -1314,7 +1314,7 @@ const deployedContracts = {
     },
     Arcane: {
       address:
-        "0x7b8d8bd0b7a43a1954c27712081c0094776153f482b835028d7c2dccdfa4677",
+        "0x4a23ab025858c9191b5e7f08b74d02544c50eb185cdb1330109ebf694aaea14",
       abi: [
         {
           type: "impl",
@@ -1377,6 +1377,22 @@ const deployedContracts = {
             },
             {
               type: "function",
+              name: "get_asset_price",
+              inputs: [
+                {
+                  name: "asset_id",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::integer::u128",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
               name: "fund",
               inputs: [
                 {
@@ -1421,10 +1437,14 @@ const deployedContracts = {
             },
             {
               type: "function",
-              name: "list",
+              name: "buy_nft",
               inputs: [
                 {
                   name: "nft_contract_address",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "coin_contract_address",
                   type: "core::starknet::contract_address::ContractAddress",
                 },
                 {
@@ -1432,15 +1452,301 @@ const deployedContracts = {
                   type: "core::integer::u256",
                 },
                 {
-                  name: "price",
+                  name: "coin_type",
                   type: "core::integer::u128",
                 },
               ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "create_game",
+              inputs: [],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "get_lucky_number",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::integer::u128",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_game_pool",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::integer::u128",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_game_id",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::integer::u128",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_game_active",
+              inputs: [],
               outputs: [
                 {
                   type: "core::bool",
                 },
               ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_player_guess",
+              inputs: [
+                {
+                  name: "player",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::integer::u128",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_compute_fee",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::integer::u128",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "play",
+              inputs: [
+                {
+                  name: "guess",
+                  type: "core::integer::u128",
+                },
+                {
+                  name: "game_id",
+                  type: "core::integer::u128",
+                },
+                {
+                  name: "amount",
+                  type: "core::integer::u256",
+                },
+                {
+                  name: "coin_type",
+                  type: "core::integer::u128",
+                },
+                {
+                  name: "coin_contract_address",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "end_game",
+              inputs: [
+                {
+                  name: "game_id",
+                  type: "core::integer::u128",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "deposit_eth",
+              inputs: [
+                {
+                  name: "price",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "deposit_strk",
+              inputs: [
+                {
+                  name: "price",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "get_price",
+              inputs: [
+                {
+                  name: "price",
+                  type: "core::integer::u256",
+                },
+                {
+                  name: "coin_type",
+                  type: "core::integer::u128",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::integer::u256",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_reward",
+              inputs: [
+                {
+                  name: "game_id",
+                  type: "core::integer::u128",
+                },
+                {
+                  name: "coin_contract_address",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "withdraw_eth",
+              inputs: [
+                {
+                  name: "address",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+          ],
+        },
+        {
+          type: "impl",
+          name: "PragmaVRFOracle",
+          interface_name: "contracts::arcane::IPragmaVRF",
+        },
+        {
+          type: "struct",
+          name: "core::array::Span::<core::felt252>",
+          members: [
+            {
+              name: "snapshot",
+              type: "@core::array::Array::<core::felt252>",
+            },
+          ],
+        },
+        {
+          type: "interface",
+          name: "contracts::arcane::IPragmaVRF",
+          items: [
+            {
+              type: "function",
+              name: "get_last_random_number",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::felt252",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "request_randomness_from_pragma",
+              inputs: [
+                {
+                  name: "seed",
+                  type: "core::integer::u64",
+                },
+                {
+                  name: "callback_address",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "callback_fee_limit",
+                  type: "core::integer::u128",
+                },
+                {
+                  name: "publish_delay",
+                  type: "core::integer::u64",
+                },
+                {
+                  name: "num_words",
+                  type: "core::integer::u64",
+                },
+                {
+                  name: "calldata",
+                  type: "core::array::Array::<core::felt252>",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "receive_random_words",
+              inputs: [
+                {
+                  name: "requester_address",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "request_id",
+                  type: "core::integer::u64",
+                },
+                {
+                  name: "random_words",
+                  type: "core::array::Span::<core::felt252>",
+                },
+                {
+                  name: "calldata",
+                  type: "core::array::Array::<core::felt252>",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "withdraw_extra_fee_fund",
+              inputs: [
+                {
+                  name: "receiver",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
               state_mutability: "external",
             },
           ],
@@ -1510,16 +1816,6 @@ const deployedContracts = {
           name: "ERC721ReceiverMixinImpl",
           interface_name:
             "openzeppelin_token::erc721::interface::ERC721ReceiverMixin",
-        },
-        {
-          type: "struct",
-          name: "core::array::Span::<core::felt252>",
-          members: [
-            {
-              name: "snapshot",
-              type: "@core::array::Array::<core::felt252>",
-            },
-          ],
         },
         {
           type: "interface",
@@ -1604,6 +1900,10 @@ const deployedContracts = {
           name: "constructor",
           inputs: [
             {
+              name: "pragma_vrf_contract_address",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+            {
               name: "pragma_address",
               type: "core::starknet::contract_address::ContractAddress",
             },
@@ -1678,6 +1978,119 @@ const deployedContracts = {
         },
         {
           type: "event",
+          name: "contracts::arcane::Arcane::NFTEvent",
+          kind: "struct",
+          members: [
+            {
+              name: "token_id",
+              type: "core::integer::u256",
+              kind: "data",
+            },
+            {
+              name: "from",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "data",
+            },
+            {
+              name: "to",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "data",
+            },
+            {
+              name: "event_type",
+              type: "core::integer::u128",
+              kind: "data",
+            },
+            {
+              name: "amount",
+              type: "core::integer::u256",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::arcane::Arcane::LotteryResult",
+          kind: "struct",
+          members: [
+            {
+              name: "game_id",
+              type: "core::integer::u128",
+              kind: "data",
+            },
+            {
+              name: "win",
+              type: "core::integer::u128",
+              kind: "data",
+            },
+            {
+              name: "winners",
+              type: "core::array::Array::<core::starknet::contract_address::ContractAddress>",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::arcane::Arcane::NFTBUYEvent",
+          kind: "struct",
+          members: [
+            {
+              name: "token_id",
+              type: "core::integer::u256",
+              kind: "data",
+            },
+            {
+              name: "from",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "data",
+            },
+            {
+              name: "to",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "data",
+            },
+            {
+              name: "event_type",
+              type: "core::integer::u128",
+              kind: "data",
+            },
+            {
+              name: "amount",
+              type: "core::integer::u256",
+              kind: "data",
+            },
+            {
+              name: "coin_type",
+              type: "core::integer::u256",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::arcane::Arcane::PlayEvent",
+          kind: "struct",
+          members: [
+            {
+              name: "player",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "data",
+            },
+            {
+              name: "game_id",
+              type: "core::integer::u128",
+              kind: "data",
+            },
+            {
+              name: "amount",
+              type: "core::integer::u256",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
           name: "contracts::arcane::Arcane::Event",
           kind: "enum",
           variants: [
@@ -1696,11 +2109,31 @@ const deployedContracts = {
               type: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
               kind: "flat",
             },
+            {
+              name: "NFTEvent",
+              type: "contracts::arcane::Arcane::NFTEvent",
+              kind: "nested",
+            },
+            {
+              name: "LotteryResult",
+              type: "contracts::arcane::Arcane::LotteryResult",
+              kind: "nested",
+            },
+            {
+              name: "NFTBUYEvent",
+              type: "contracts::arcane::Arcane::NFTBUYEvent",
+              kind: "nested",
+            },
+            {
+              name: "PlayEvent",
+              type: "contracts::arcane::Arcane::PlayEvent",
+              kind: "nested",
+            },
           ],
         },
       ],
       classHash:
-        "0x31a45e112ce42f7eca31683dc497bc66c861aa6db6df1f69015ab191b5eed41",
+        "0x1671610456fa87934bfdd66e2a53bbdd47f7848a70cd30f059c658958e672e9",
     },
   },
 } as const;

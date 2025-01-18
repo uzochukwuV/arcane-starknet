@@ -1,9 +1,20 @@
 // SPDX-License-Identifier: MIT
 // Compatible with OpenZeppelin Contracts for Cairo ^0.18.0
+use starknet::ContractAddress;
+
+#[starknet::interface]
+pub trait IArcNft<TContractState> {
+    fn get_token_uri(self: @TContractState, token_id: u256) -> ByteArray;
+    fn lazy_mint(ref self: TContractState, to: ContractAddress, uri: ByteArray, token_id: u256);
+    fn tranfer_nft_from(ref self: TContractState,from :ContractAddress,  to: ContractAddress, token_id: u256);
+    fn get_next_id(self: @TContractState) -> u64;
+    fn owner(self: @TContractState,token_id: u256)-> ContractAddress;
+}
 
 #[starknet::contract]
 pub mod ArcNft {
-    use openzeppelin::access::ownable::OwnableComponent;
+
+use openzeppelin::access::ownable::OwnableComponent;
     use openzeppelin::introspection::src5::SRC5Component;
     use openzeppelin::token::erc721::ERC721Component;
     use openzeppelin::token::erc721::extensions::ERC721EnumerableComponent;
@@ -11,6 +22,7 @@ pub mod ArcNft {
     use openzeppelin::upgrades::interface::IUpgradeable;
     use starknet::ClassHash;
     use starknet::ContractAddress;
+    use starknet::storage::{Map, StorageMapReadAccess, StorageMapWriteAccess, StoragePointerWriteAccess, StoragePointerReadAccess, StoragePathEntry};
 
     component!(path: ERC721Component, storage: erc721, event: ERC721Event);
     component!(path: SRC5Component, storage: src5, event: SRC5Event);
@@ -45,6 +57,8 @@ pub mod ArcNft {
         erc721_enumerable: ERC721EnumerableComponent::Storage,
         #[substorage(v0)]
         upgradeable: UpgradeableComponent::Storage,
+        pub nft_uri: Map<u256, ByteArray>,
+        pub next_id: u64,
     }
 
     #[event]
@@ -67,6 +81,7 @@ pub mod ArcNft {
         self.erc721.initializer("ArcNFT", "ARC", "");
         self.ownable.initializer(owner);
         self.erc721_enumerable.initializer();
+        self.next_id.write(0);
     }
 
     impl ERC721HooksImpl of ERC721Component::ERC721HooksTrait<ContractState> {
@@ -89,6 +104,29 @@ pub mod ArcNft {
         }
     }
 
+    #[abi(embed_v0)]
+    impl INFTArcImpl of super::IArcNft<ContractState>{
+        fn tranfer_nft_from(ref self: ContractState,from :ContractAddress,  to: ContractAddress, token_id: u256){
+            self.erc721.transfer_from(from, to, token_id);
+        }
+        fn owner(self: @ContractState, token_id:u256)-> ContractAddress{
+            self.erc721.owner_of(token_id)
+        }
+        fn get_next_id(self: @ContractState) -> u64{
+            self.next_id.read()
+        }
+        fn get_token_uri(self: @ContractState, token_id: u256) -> ByteArray {
+            self.nft_uri.read(token_id)
+        }
+
+        fn lazy_mint(ref self: ContractState, to: ContractAddress, uri: ByteArray, token_id: u256) {
+            self.erc721.mint(to, token_id);
+            self.nft_uri.write(token_id, uri);
+            let next = self.next_id.read();
+            self.next_id.write(next+1);
+        }
+    } 
+
     #[generate_trait]
     #[abi(per_item)]
     impl ExternalImpl of ExternalTrait {
@@ -99,9 +137,10 @@ pub mod ArcNft {
             token_id: u256,
             data: Span<felt252>,
         ) {
-            self.ownable.assert_only_owner();
-            self.erc721.safe_mint(recipient, token_id, data);
             
+            self.erc721.safe_mint(recipient, token_id, data);
+            let next = self.next_id.read();
+            self.next_id.write(next+1);
         }
 
         #[external(v0)]
@@ -109,6 +148,8 @@ pub mod ArcNft {
             ref self: ContractState, recipient: ContractAddress, tokenId: u256, data: Span<felt252>,
         ) {
             self.safe_mint(recipient, tokenId, data);
+            let next = self.next_id.read();
+            self.next_id.write(next+1);
         }
     }
 }

@@ -76,6 +76,7 @@ const deployScript = async (): Promise<void> => {
     constructorArgs: {
       pragma_address:"0x36031daa264c24520b11d93af622c848b2499b66b41d611bac95e13cfca131a",
       owner: "0x038a0b7663567562c39b52358bbe2a68c66e0338d4fb3a8cbf00d84454d918f9",
+      pragma_vrf_contract_address:"0x60c69136b39319547a4df303b6b3a26fab8b2d78de90b6bd215ce82e9cb515c",
     },
   });
 };

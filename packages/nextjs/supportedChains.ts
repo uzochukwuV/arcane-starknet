@@ -23,4 +23,4 @@ const mainnetFork = {
   },
 } as chains.Chain;
 
-export const supportedChains = { ...chains, mainnetFork };
+export const supportedChains = { ...chains };

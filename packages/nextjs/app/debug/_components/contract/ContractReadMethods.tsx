@@ -6,6 +6,7 @@ import {
 } from "~~/utils/scaffold-stark/contract";
 import { ReadOnlyFunctionForm } from "./ReadOnlyFunctionForm";
 
+
 export const ContractReadMethods = ({
   deployedContractData,
 }: {

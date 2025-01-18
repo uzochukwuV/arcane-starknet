@@ -11,7 +11,7 @@ export const Listings =()=> {
         functionName: "get_all_listings",
         args: [],
       });
-      console.log(totalCounter?.[0].toString());
+      console.log(totalCounter);
     return (
         <>
         Listings
@@ -22,3 +22,5 @@ export const Listings =()=> {
 // onchain lottery
 // lending contract
 // nft market place
+
+// 2000000000000000
