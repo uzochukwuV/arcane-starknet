@@ -50,6 +50,8 @@ pub trait IArcane<ContractState> {
     fn get_game_active(self: @ContractState)-> bool;
     fn get_player_guess(self: @ContractState, player:ContractAddress)-> u128;
     fn get_compute_fee(self: @ContractState)-> u128;
+    fn get_nft_detail(self: @ContractState, token_id: u256)-> u128;
+    fn is_nft_available(self: @ContractState, token_id: u256)-> bool;
     
     
     fn play(ref self: ContractState, guess: u128, game_id: u128, amount: u256, coin_type: u128,coin_contract_address:ContractAddress);
@@ -119,6 +121,7 @@ use super::IArcane;
         #[substorage(v0)]
         ownable: OwnableComponent::Storage,
         nfts: Vec::<u256>,
+        available: Map::<u256, bool>,
         listings: Map::<u256, ContractAddress>,
         listing_to_price: Map::<u256, u128>,
         pragma_contract: ContractAddress,
@@ -213,9 +216,17 @@ use super::IArcane;
 
     #[abi(embed_v0)]
     impl ArcaneImpl of super::IArcane<ContractState> {
+        fn is_nft_available(self: @ContractState, token_id: u256)-> bool{
+            self.available.entry(token_id).read()
+        }
+        fn get_nft_detail(self: @ContractState, token_id: u256)-> u128{
+            let onwer = self.listings.entry(token_id).read();
+            let price = self.listing_to_price.entry(token_id).read();
+            return price;
+        }
         fn mint_nft(ref self: ContractState, to: ContractAddress,
             token_id: u256,
-            uri: ByteArray,nft_address: ContractAddress){
+            uri: ByteArray, nft_address: ContractAddress){
                 let nft = IArcNftDispatcher { contract_address: nft_address }; 
                 nft.lazy_mint(to,uri, token_id );    
         }
@@ -406,7 +417,7 @@ use super::IArcane;
             price: u128,
         ) -> bool {
             let nft = IArcNftDispatcher { contract_address: nft_contract_address };
-            let nft_owner = nft.owner(token_id);
+            let nft_owner = nft.isOwner(token_id);
 
             assert!(get_caller_address() == nft_owner, "NOT_ALLOWED");
             
@@ -435,10 +446,15 @@ use super::IArcane;
             true
         }
 
+
+
         fn get_all_listings(self: @ContractState) -> Array::<u256> {
             let mut token_ids = array![];
             for i in 0..self.nfts.len() {
-                token_ids.append(self.nfts.at(i).read());
+                if self.available.entry(self.nfts.at(i).read()).read(){
+                    token_ids.append(self.nfts.at(i).read());
+                }
+                
             };
             token_ids
         }
@@ -463,9 +479,10 @@ use super::IArcane;
         ) {
             let nft = IArcNftDispatcher { contract_address: nft_contract_address };
 
-            assert!(nft.owner(token_id) == get_contract_address(), "NOT_LISTED");
+            assert!(nft.isOwner(token_id) == get_contract_address(), "NOT_LISTED");
             let owner = self.listings.entry(token_id).read();
             let nft_price = self.listing_to_price.entry(token_id).read().try_into().unwrap();
+            self.available.write(token_id, false);
             if coin_type == ETH {
                 let eth_price = self.get_asset_price(ETH_USD).into();
                 let eth_needed = nft_price * EIGHT_DECIMAL_FACTOR / eth_price;

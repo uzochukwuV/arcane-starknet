@@ -5,9 +5,500 @@
 
 const deployedContracts = {
   sepolia: {
+    ArcCoin: {
+      address:
+        "0x39042876854f9c897bedaeb3841f24ae94751010518677ad9a12e33476a7f3f",
+      abi: [
+        {
+          type: "struct",
+          name: "core::integer::u256",
+          members: [
+            {
+              name: "low",
+              type: "core::integer::u128",
+            },
+            {
+              name: "high",
+              type: "core::integer::u128",
+            },
+          ],
+        },
+        {
+          type: "function",
+          name: "burn",
+          inputs: [
+            {
+              name: "value",
+              type: "core::integer::u256",
+            },
+          ],
+          outputs: [],
+          state_mutability: "external",
+        },
+        {
+          type: "function",
+          name: "mint",
+          inputs: [
+            {
+              name: "recipient",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+            {
+              name: "amount",
+              type: "core::integer::u256",
+            },
+          ],
+          outputs: [],
+          state_mutability: "external",
+        },
+        {
+          type: "impl",
+          name: "ERC20MixinImpl",
+          interface_name: "openzeppelin_token::erc20::interface::IERC20Mixin",
+        },
+        {
+          type: "enum",
+          name: "core::bool",
+          variants: [
+            {
+              name: "False",
+              type: "()",
+            },
+            {
+              name: "True",
+              type: "()",
+            },
+          ],
+        },
+        {
+          type: "struct",
+          name: "core::byte_array::ByteArray",
+          members: [
+            {
+              name: "data",
+              type: "core::array::Array::<core::bytes_31::bytes31>",
+            },
+            {
+              name: "pending_word",
+              type: "core::felt252",
+            },
+            {
+              name: "pending_word_len",
+              type: "core::integer::u32",
+            },
+          ],
+        },
+        {
+          type: "interface",
+          name: "openzeppelin_token::erc20::interface::IERC20Mixin",
+          items: [
+            {
+              type: "function",
+              name: "total_supply",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::integer::u256",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "balance_of",
+              inputs: [
+                {
+                  name: "account",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::integer::u256",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "allowance",
+              inputs: [
+                {
+                  name: "owner",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "spender",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::integer::u256",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "transfer",
+              inputs: [
+                {
+                  name: "recipient",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "amount",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::bool",
+                },
+              ],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "transfer_from",
+              inputs: [
+                {
+                  name: "sender",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "recipient",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "amount",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::bool",
+                },
+              ],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "approve",
+              inputs: [
+                {
+                  name: "spender",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "amount",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::bool",
+                },
+              ],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "name",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::byte_array::ByteArray",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "symbol",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::byte_array::ByteArray",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "decimals",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::integer::u8",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "totalSupply",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::integer::u256",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "balanceOf",
+              inputs: [
+                {
+                  name: "account",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::integer::u256",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "transferFrom",
+              inputs: [
+                {
+                  name: "sender",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "recipient",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "amount",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::bool",
+                },
+              ],
+              state_mutability: "external",
+            },
+          ],
+        },
+        {
+          type: "impl",
+          name: "OwnableMixinImpl",
+          interface_name: "openzeppelin_access::ownable::interface::OwnableABI",
+        },
+        {
+          type: "interface",
+          name: "openzeppelin_access::ownable::interface::OwnableABI",
+          items: [
+            {
+              type: "function",
+              name: "owner",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "transfer_ownership",
+              inputs: [
+                {
+                  name: "new_owner",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "renounce_ownership",
+              inputs: [],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "transferOwnership",
+              inputs: [
+                {
+                  name: "newOwner",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "renounceOwnership",
+              inputs: [],
+              outputs: [],
+              state_mutability: "external",
+            },
+          ],
+        },
+        {
+          type: "constructor",
+          name: "constructor",
+          inputs: [
+            {
+              name: "initial_supply",
+              type: "core::felt252",
+            },
+            {
+              name: "owner",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_token::erc20::erc20::ERC20Component::Transfer",
+          kind: "struct",
+          members: [
+            {
+              name: "from",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "to",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "value",
+              type: "core::integer::u256",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_token::erc20::erc20::ERC20Component::Approval",
+          kind: "struct",
+          members: [
+            {
+              name: "owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "spender",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "value",
+              type: "core::integer::u256",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_token::erc20::erc20::ERC20Component::Event",
+          kind: "enum",
+          variants: [
+            {
+              name: "Transfer",
+              type: "openzeppelin_token::erc20::erc20::ERC20Component::Transfer",
+              kind: "nested",
+            },
+            {
+              name: "Approval",
+              type: "openzeppelin_token::erc20::erc20::ERC20Component::Approval",
+              kind: "nested",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferred",
+          kind: "struct",
+          members: [
+            {
+              name: "previous_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "new_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
+          kind: "struct",
+          members: [
+            {
+              name: "previous_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "new_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
+          kind: "enum",
+          variants: [
+            {
+              name: "OwnershipTransferred",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferred",
+              kind: "nested",
+            },
+            {
+              name: "OwnershipTransferStarted",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
+              kind: "nested",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::arcCoin::ArcCoin::Event",
+          kind: "enum",
+          variants: [
+            {
+              name: "ERC20Event",
+              type: "openzeppelin_token::erc20::erc20::ERC20Component::Event",
+              kind: "flat",
+            },
+            {
+              name: "OwnableEvent",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
+              kind: "flat",
+            },
+          ],
+        },
+      ],
+      classHash:
+        "0x4e87c51cef9701483f26d036aeb6f981b2c0a9db52f59d0172e9b3738727411",
+    },
     ArcNft: {
       address:
-        "0x11a3d9e105449c29f8b3884d75843bde93f74cec6a14197e41efe995a3fc124",
+        "0x446ba4ead4c8b2b866b2442726dd4058a7ecb30ad614597b9c2bf0385c7dcd5",
       abi: [
         {
           type: "impl",
@@ -33,6 +524,11 @@ const deployedContracts = {
           ],
         },
         {
+          type: "impl",
+          name: "INFTArcImpl",
+          interface_name: "contracts::ArcNft::IArcNft",
+        },
+        {
           type: "struct",
           name: "core::integer::u256",
           members: [
@@ -43,6 +539,113 @@ const deployedContracts = {
             {
               name: "high",
               type: "core::integer::u128",
+            },
+          ],
+        },
+        {
+          type: "struct",
+          name: "core::byte_array::ByteArray",
+          members: [
+            {
+              name: "data",
+              type: "core::array::Array::<core::bytes_31::bytes31>",
+            },
+            {
+              name: "pending_word",
+              type: "core::felt252",
+            },
+            {
+              name: "pending_word_len",
+              type: "core::integer::u32",
+            },
+          ],
+        },
+        {
+          type: "interface",
+          name: "contracts::ArcNft::IArcNft",
+          items: [
+            {
+              type: "function",
+              name: "get_token_uri",
+              inputs: [
+                {
+                  name: "token_id",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::byte_array::ByteArray",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "lazy_mint",
+              inputs: [
+                {
+                  name: "to",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "uri",
+                  type: "core::byte_array::ByteArray",
+                },
+                {
+                  name: "token_id",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "tranfer_nft_from",
+              inputs: [
+                {
+                  name: "from",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "to",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "token_id",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "get_next_id",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::integer::u64",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "isOwner",
+              inputs: [
+                {
+                  name: "token_id",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              state_mutability: "view",
             },
           ],
         },
@@ -112,24 +715,6 @@ const deployedContracts = {
             {
               name: "True",
               type: "()",
-            },
-          ],
-        },
-        {
-          type: "struct",
-          name: "core::byte_array::ByteArray",
-          members: [
-            {
-              name: "data",
-              type: "core::array::Array::<core::bytes_31::bytes31>",
-            },
-            {
-              name: "pending_word",
-              type: "core::felt252",
-            },
-            {
-              name: "pending_word_len",
-              type: "core::integer::u32",
             },
           ],
         },
@@ -819,502 +1404,11 @@ const deployedContracts = {
         },
       ],
       classHash:
-        "0x7cd31119ac7b80bd72a9412139ce9ddd56bc6343368f4bc2fd60777473fb0e5",
-    },
-    ArcCoin: {
-      address:
-        "0x15dbe7e08930b39a261fc46e46df81a601fc3517c6e203e365b3e82545b5409",
-      abi: [
-        {
-          type: "struct",
-          name: "core::integer::u256",
-          members: [
-            {
-              name: "low",
-              type: "core::integer::u128",
-            },
-            {
-              name: "high",
-              type: "core::integer::u128",
-            },
-          ],
-        },
-        {
-          type: "function",
-          name: "burn",
-          inputs: [
-            {
-              name: "value",
-              type: "core::integer::u256",
-            },
-          ],
-          outputs: [],
-          state_mutability: "external",
-        },
-        {
-          type: "function",
-          name: "mint",
-          inputs: [
-            {
-              name: "recipient",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-            {
-              name: "amount",
-              type: "core::integer::u256",
-            },
-          ],
-          outputs: [],
-          state_mutability: "external",
-        },
-        {
-          type: "impl",
-          name: "ERC20MixinImpl",
-          interface_name: "openzeppelin_token::erc20::interface::IERC20Mixin",
-        },
-        {
-          type: "enum",
-          name: "core::bool",
-          variants: [
-            {
-              name: "False",
-              type: "()",
-            },
-            {
-              name: "True",
-              type: "()",
-            },
-          ],
-        },
-        {
-          type: "struct",
-          name: "core::byte_array::ByteArray",
-          members: [
-            {
-              name: "data",
-              type: "core::array::Array::<core::bytes_31::bytes31>",
-            },
-            {
-              name: "pending_word",
-              type: "core::felt252",
-            },
-            {
-              name: "pending_word_len",
-              type: "core::integer::u32",
-            },
-          ],
-        },
-        {
-          type: "interface",
-          name: "openzeppelin_token::erc20::interface::IERC20Mixin",
-          items: [
-            {
-              type: "function",
-              name: "total_supply",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "balance_of",
-              inputs: [
-                {
-                  name: "account",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "allowance",
-              inputs: [
-                {
-                  name: "owner",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-                {
-                  name: "spender",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "transfer",
-              inputs: [
-                {
-                  name: "recipient",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-                {
-                  name: "amount",
-                  type: "core::integer::u256",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::bool",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "transfer_from",
-              inputs: [
-                {
-                  name: "sender",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-                {
-                  name: "recipient",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-                {
-                  name: "amount",
-                  type: "core::integer::u256",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::bool",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "approve",
-              inputs: [
-                {
-                  name: "spender",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-                {
-                  name: "amount",
-                  type: "core::integer::u256",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::bool",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "name",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::byte_array::ByteArray",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "symbol",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::byte_array::ByteArray",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "decimals",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::integer::u8",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "totalSupply",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "balanceOf",
-              inputs: [
-                {
-                  name: "account",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "transferFrom",
-              inputs: [
-                {
-                  name: "sender",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-                {
-                  name: "recipient",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-                {
-                  name: "amount",
-                  type: "core::integer::u256",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::bool",
-                },
-              ],
-              state_mutability: "external",
-            },
-          ],
-        },
-        {
-          type: "impl",
-          name: "OwnableMixinImpl",
-          interface_name: "openzeppelin_access::ownable::interface::OwnableABI",
-        },
-        {
-          type: "interface",
-          name: "openzeppelin_access::ownable::interface::OwnableABI",
-          items: [
-            {
-              type: "function",
-              name: "owner",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "transfer_ownership",
-              inputs: [
-                {
-                  name: "new_owner",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "renounce_ownership",
-              inputs: [],
-              outputs: [],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "transferOwnership",
-              inputs: [
-                {
-                  name: "newOwner",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "renounceOwnership",
-              inputs: [],
-              outputs: [],
-              state_mutability: "external",
-            },
-          ],
-        },
-        {
-          type: "constructor",
-          name: "constructor",
-          inputs: [
-            {
-              name: "initial_supply",
-              type: "core::felt252",
-            },
-            {
-              name: "owner",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-          ],
-        },
-        {
-          type: "event",
-          name: "openzeppelin_token::erc20::erc20::ERC20Component::Transfer",
-          kind: "struct",
-          members: [
-            {
-              name: "from",
-              type: "core::starknet::contract_address::ContractAddress",
-              kind: "key",
-            },
-            {
-              name: "to",
-              type: "core::starknet::contract_address::ContractAddress",
-              kind: "key",
-            },
-            {
-              name: "value",
-              type: "core::integer::u256",
-              kind: "data",
-            },
-          ],
-        },
-        {
-          type: "event",
-          name: "openzeppelin_token::erc20::erc20::ERC20Component::Approval",
-          kind: "struct",
-          members: [
-            {
-              name: "owner",
-              type: "core::starknet::contract_address::ContractAddress",
-              kind: "key",
-            },
-            {
-              name: "spender",
-              type: "core::starknet::contract_address::ContractAddress",
-              kind: "key",
-            },
-            {
-              name: "value",
-              type: "core::integer::u256",
-              kind: "data",
-            },
-          ],
-        },
-        {
-          type: "event",
-          name: "openzeppelin_token::erc20::erc20::ERC20Component::Event",
-          kind: "enum",
-          variants: [
-            {
-              name: "Transfer",
-              type: "openzeppelin_token::erc20::erc20::ERC20Component::Transfer",
-              kind: "nested",
-            },
-            {
-              name: "Approval",
-              type: "openzeppelin_token::erc20::erc20::ERC20Component::Approval",
-              kind: "nested",
-            },
-          ],
-        },
-        {
-          type: "event",
-          name: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferred",
-          kind: "struct",
-          members: [
-            {
-              name: "previous_owner",
-              type: "core::starknet::contract_address::ContractAddress",
-              kind: "key",
-            },
-            {
-              name: "new_owner",
-              type: "core::starknet::contract_address::ContractAddress",
-              kind: "key",
-            },
-          ],
-        },
-        {
-          type: "event",
-          name: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
-          kind: "struct",
-          members: [
-            {
-              name: "previous_owner",
-              type: "core::starknet::contract_address::ContractAddress",
-              kind: "key",
-            },
-            {
-              name: "new_owner",
-              type: "core::starknet::contract_address::ContractAddress",
-              kind: "key",
-            },
-          ],
-        },
-        {
-          type: "event",
-          name: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
-          kind: "enum",
-          variants: [
-            {
-              name: "OwnershipTransferred",
-              type: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferred",
-              kind: "nested",
-            },
-            {
-              name: "OwnershipTransferStarted",
-              type: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
-              kind: "nested",
-            },
-          ],
-        },
-        {
-          type: "event",
-          name: "contracts::arcCoin::ArcCoin::Event",
-          kind: "enum",
-          variants: [
-            {
-              name: "ERC20Event",
-              type: "openzeppelin_token::erc20::erc20::ERC20Component::Event",
-              kind: "flat",
-            },
-            {
-              name: "OwnableEvent",
-              type: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
-              kind: "flat",
-            },
-          ],
-        },
-      ],
-      classHash:
-        "0x4e87c51cef9701483f26d036aeb6f981b2c0a9db52f59d0172e9b3738727411",
+        "0x2a4d0f855cf9b98e2ce0dbecacea3cc593a3764cd7f44dcdb30303718afa786",
     },
     Arcane: {
       address:
-        "0x4a23ab025858c9191b5e7f08b74d02544c50eb185cdb1330109ebf694aaea14",
+        "0x68793cc16d4c1ae332aead0ed71d81c2ea3d7965531c23ecd3dd4c5752e9c21",
       abi: [
         {
           type: "impl",
@@ -1346,6 +1440,24 @@ const deployedContracts = {
             {
               name: "True",
               type: "()",
+            },
+          ],
+        },
+        {
+          type: "struct",
+          name: "core::byte_array::ByteArray",
+          members: [
+            {
+              name: "data",
+              type: "core::array::Array::<core::bytes_31::bytes31>",
+            },
+            {
+              name: "pending_word",
+              type: "core::felt252",
+            },
+            {
+              name: "pending_word_len",
+              type: "core::integer::u32",
             },
           ],
         },
@@ -1539,6 +1651,38 @@ const deployedContracts = {
             },
             {
               type: "function",
+              name: "get_nft_detail",
+              inputs: [
+                {
+                  name: "token_id",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::integer::u128",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "is_nft_available",
+              inputs: [
+                {
+                  name: "token_id",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::bool",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
               name: "play",
               inputs: [
                 {
@@ -1643,6 +1787,30 @@ const deployedContracts = {
               inputs: [
                 {
                   name: "address",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "mint_nft",
+              inputs: [
+                {
+                  name: "to",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "token_id",
+                  type: "core::integer::u256",
+                },
+                {
+                  name: "uri",
+                  type: "core::byte_array::ByteArray",
+                },
+                {
+                  name: "nft_address",
                   type: "core::starknet::contract_address::ContractAddress",
                 },
               ],
@@ -2133,7 +2301,7 @@ const deployedContracts = {
         },
       ],
       classHash:
-        "0x1671610456fa87934bfdd66e2a53bbdd47f7848a70cd30f059c658958e672e9",
+        "0x53c737340094566bdd29a1037083eac40fc2702ad6129f345f491ee8e980ab8",
     },
   },
 } as const;

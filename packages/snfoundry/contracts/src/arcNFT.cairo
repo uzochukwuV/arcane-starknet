@@ -8,7 +8,7 @@ pub trait IArcNft<TContractState> {
     fn lazy_mint(ref self: TContractState, to: ContractAddress, uri: ByteArray, token_id: u256);
     fn tranfer_nft_from(ref self: TContractState,from :ContractAddress,  to: ContractAddress, token_id: u256);
     fn get_next_id(self: @TContractState) -> u64;
-    fn owner(self: @TContractState,token_id: u256)-> ContractAddress;
+    fn isOwner(self: @TContractState,token_id: u256)-> ContractAddress;
 }
 
 #[starknet::contract]
@@ -22,7 +22,7 @@ use openzeppelin::access::ownable::OwnableComponent;
     use openzeppelin::upgrades::interface::IUpgradeable;
     use starknet::ClassHash;
     use starknet::ContractAddress;
-    use starknet::storage::{Map, StorageMapReadAccess, StorageMapWriteAccess, StoragePointerWriteAccess, StoragePointerReadAccess, StoragePathEntry};
+    use starknet::storage::{Map, StorageMapReadAccess, StorageMapWriteAccess, StoragePointerWriteAccess, StoragePointerReadAccess};
 
     component!(path: ERC721Component, storage: erc721, event: ERC721Event);
     component!(path: SRC5Component, storage: src5, event: SRC5Event);
@@ -78,7 +78,7 @@ use openzeppelin::access::ownable::OwnableComponent;
 
     #[constructor]
     fn constructor(ref self: ContractState, owner: ContractAddress) {
-        self.erc721.initializer("ArcNFT", "ARC", "");
+        self.erc721.initializer("ArcNFT", "ARC", "https://lavender-far-earwig-569.mypinata.cloud");
         self.ownable.initializer(owner);
         self.erc721_enumerable.initializer();
         self.next_id.write(0);
@@ -109,7 +109,7 @@ use openzeppelin::access::ownable::OwnableComponent;
         fn tranfer_nft_from(ref self: ContractState,from :ContractAddress,  to: ContractAddress, token_id: u256){
             self.erc721.transfer_from(from, to, token_id);
         }
-        fn owner(self: @ContractState, token_id:u256)-> ContractAddress{
+        fn isOwner(self: @ContractState, token_id:u256)-> ContractAddress{
             self.erc721.owner_of(token_id)
         }
         fn get_next_id(self: @ContractState) -> u64{
