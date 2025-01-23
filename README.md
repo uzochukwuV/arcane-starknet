@@ -3,7 +3,7 @@
 <h4 align="center">
   <a href="https://docs.scaffoldstark.com/">Documentation</a> |
   <a href="https://scaffoldstark.com/">Website</a> |
-  <a href="https://scaffold-stark-demo.vercel.app/debug">Demo</a>
+  <a href="hjectttps://arcane-uzochukwuv-uzochukwuvs-projects.vercel.app/">Demo of this pro</a>
 </h4>
 
 🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on Starknet blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
