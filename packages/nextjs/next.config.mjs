@@ -7,6 +7,11 @@ const nextConfig = {
     // make sure no one injects anything funny in svg
     dangerouslyAllowSVG: true,
     remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "lavender-far-earwig-569.mypinata.cloud",
+        pathname: "/**",
+      },
       // we might need to add more links. this is just from the starknet ID identicon
       {
         protocol: "https",
