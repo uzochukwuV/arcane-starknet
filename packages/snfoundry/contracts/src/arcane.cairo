@@ -359,6 +359,7 @@ use super::IArcane;
             self.guesses.entry(get_caller_address()).write(guess);
             self.players_stakes.entry(get_caller_address()).write(amount.try_into().unwrap());
             self.players.append().write(get_caller_address());
+            self.game_pool.write(self.game_pool.read() + amount.try_into().unwrap());
             if coin_type == ETH {
                 let eth_price = self.get_asset_price(ETH_USD).into();
                 let eth_needed = amount * EIGHT_DECIMAL_FACTOR / eth_price;
@@ -431,6 +432,7 @@ use super::IArcane;
             self.nfts.append().write(token_id);
             self.listings.write(token_id, get_caller_address());
             self.listing_to_price.write(token_id, price);
+            self.available.write(token_id, true);
             let contract = ERC20ABIDispatcher { contract_address: coin_contract_address };
             contract.transfer(get_caller_address(), LISTREWARD);
             self

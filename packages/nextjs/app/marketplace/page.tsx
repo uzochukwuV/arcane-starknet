@@ -2,6 +2,7 @@
 
 import { useScaffoldReadContract } from "~~/hooks/scaffold-stark/useScaffoldReadContract";
 import NFTView from "./components/Nft";
+import Link from "next/link";
 
 
 const Marketplace = () => {
@@ -12,8 +13,12 @@ const Marketplace = () => {
     });
   return (
     <div className=" w-screen px-8 py-6">
-        <div className="allnft font-semibold text-black mb-8">
-          NFT Marketplace
+        <div className="allnft font-semibold flex justify-between text-black mb-8">
+          <div>NFT Marketplace</div>
+          <div className="flex gap-6">
+          <Link href={"/game"}> join Lottery</Link>
+          <Link href={"/createnft"}>Create your own nft</Link>
+          </div>
         </div>
         <div className="ea za xc">
             {

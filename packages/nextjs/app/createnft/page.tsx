@@ -12,6 +12,7 @@ function CreateNFT() {
       const [url, setUrl] = useState("");
       const [message, setMessage] = useState("Uploading");
       const [tokenId, settokenId] = useState(0);
+      const [nftid, setnftid] = useState(0);
       const [step, setstep] = useState(0);
       const [form, setform] = useState({title:"", description:"", price:1, size:""});
       const { address: connectedAddress } = useAccount();
@@ -31,7 +32,7 @@ function CreateNFT() {
           alert("connect wallet to mint")
         }
         settokenId(Number(id?.toString()!))
-      },[url, message])
+      },[url, message, connectedAddress, id])
 
       const { sendAsync : Mint } = useScaffoldWriteContract({
         contractName: "ArcNft",
@@ -50,7 +51,7 @@ function CreateNFT() {
       const { sendAsync : List } = useScaffoldWriteContract({
         contractName: "Arcane",
         functionName: "list_nft",
-        args: [ nft_address,coin_contract, tokenId, form.price],
+        args: [ nft_address,coin_contract, nftid, form.price],
       });
 
       const createListNFT = async () => {
@@ -72,7 +73,7 @@ function CreateNFT() {
           const ipfsUrl = await uploadRequest.json()
           setUrl(ipfsUrl.jsonurl);
           setMessage("Uploaded")
-          
+          alert("file staged")
           setUploading(false);
           setstep(1)
         } catch (e) {
@@ -85,7 +86,9 @@ function CreateNFT() {
       const mint = async ()=> {
         try {
           setUploading(true);
+          setnftid(tokenId)
         await Mint();
+        
         setMessage("Minted")
         setUploading(false);
         setstep(2)
@@ -97,14 +100,27 @@ function CreateNFT() {
       const list = async ()=>{
         try {
           setUploading(true);
-        await Approve();
-        alert("Approved");
-        setMessage("Approved")
+       
         await List();
         setMessage("Listed")
         alert("nft listed")
         setUploading(false);
         setstep(0)
+        setFile(undefined)
+        } catch (error) {
+          setUploading(false)
+        }
+      }
+
+      
+      const approve = async ()=>{
+        try {
+          setUploading(true);
+        await Approve();
+        alert("Approved");
+        setMessage("Approved")
+        setUploading(false);
+        setstep(3)
         } catch (error) {
           setUploading(false)
         }
@@ -125,14 +141,15 @@ function CreateNFT() {
     <section className="kg">
         <h1 className=' text-center text-4xl py-5'>Create and List NFT</h1>
       <div className="a">
-        <div className="f z gd nd fe">
+        <div className="f z gd nd bg-indigo-50">
           <div  className="ff vj">
             <div className="fa za xc bm">
               <div className="pb zf bl/12 lm">
                 <div className="ra tk">
-                  <div className="qa">
+                  {
+                    !file && <div className="qa">
                     <input type="file" name="file" id="file" className="b" onChange={handleFileChange} />
-                    <label htmlFor="file" className="f za gb ob yc _c kd qd ud xd ie gf ch">
+                    <label htmlFor="file" className="f za gb o text-slate-700b yc _c kd qd ud xd ie gf ch">
                       <div>
                         <div className="ia ch">
                           <svg width="80" height="80" viewBox="0 0 80 80" className="da">
@@ -154,11 +171,12 @@ function CreateNFT() {
                       </div>
                     </label>
                   </div>
+                  }
 
                   <div className="ka ld je of xf">
                     {
                         file && (<div className="za yc ad">
-                        <span className="id pg eh oh vh">
+                        <span className="id pg eh  oh ">
                           {file.name}
                         </span>
                         <button className="vh">
@@ -178,44 +196,44 @@ function CreateNFT() {
               <div className="pb zf cl/12 lm">
                 <div>
                   <div className="ka">
-                    <label htmlFor="title" className="la xa eh oh vh">
-                      Title {url}
+                    <label htmlFor="title" className="la xa eh text-slate-700  oh ">
+                      Title
                     </label>
-                    <input required type="text" name="title" id="title" value={form.title} onChange={handleChange} placeholder="Enter item title" className="pb ld qd wd ie sf wf eh oh uh di ii fj gj"  />
+                    <input required type="text" name="title" id="title" value={form.title} onChange={handleChange} placeholder="Enter item title" className="pb ld qd wd  sf focus:bg-white text-black wf eh oh uh di ii  gj"  />
                   </div>
                   <div className="ka">
-                    <label htmlFor="description" className="la xa eh oh vh">
+                    <label htmlFor="description" className="la text-slate-700 xa eh  oh ">
                       Description (optional)
                     </label>
-                    <textarea required rows={2} name="description" value={form.description} onChange={handleChange as any} id="description" placeholder="Type item description" className="pb ld qd wd ie sf wf eh oh uh di ii fj gj"></textarea>
+                    <textarea required rows={2} name="description" value={form.description} onChange={handleChange as any} id="description" placeholder="Type item description" className="pb ld qd wd  sf focus:bg-white text-black wf eh oh uh di ii  gj"></textarea>
                   </div>
                   <div className="ka">
-                    <label htmlFor="price" className="la xa eh oh vh">
+                    <label htmlFor="price" className="la xa eh text-slate-700  oh ">
                       Price (in usdt)
                     </label>
-                    <input required type="number" name="price" value={form.price} onChange={handleChange} id="price" placeholder="10 ETH" className="pb ld qd wd ie sf wf eh oh uh di ii fj gj" />
+                    <input required type="number" name="price" value={form.price} onChange={handleChange} id="price" placeholder="10 ETH" className="pb ld qd wd  sf focus:bg-white text-black wf eh oh uh di ii  gj" />
                   </div>
 
-                  <div className="ga za xc">
+                 {/* <div className="ga za xc">
                     <div className="pb qf hk/2">
                       <div className="ka">
-                        <label htmlFor="royalties" className="la xa eh oh vh">
+                        <label htmlFor="royalties" className="la xa text-slate-700 eh  oh ">
                           Royalties (UnAvailable)
                         </label>
-                        <input type="text" disabled name="royalties" id="royalties" placeholder="5%" className="pb ld qd wd ie sf wf eh oh uh di ii fj gj" />
+                        <input type="text" disabled name="royalties" id="royalties" placeholder="5%" className="pb ld qd wd  sf focus:bg-white text-black wf eh oh uh di ii  gj" />
                       </div>
                     </div>
                     <div className="pb qf hk/2">
                       <div className="ka">
-                        <label htmlFor="size" className="la xa eh oh vh">
+                        <label htmlFor="size" className="la xa eh  text-slate-700 oh ">
                           Size
                         </label>
-                        <input type="text" name="size" value={form.size} onChange={handleChange} id="size" placeholder="e.g. 'size'" className="pb ld qd wd ie sf wf eh oh uh di ii fj gj" />
+                        <input type="text" name="size" value={form.size} onChange={handleChange} id="size" placeholder="e.g. 'size'" className="pb ld qd wd  sf focus:bg-white text-black wf eh oh uh di ii  gj" />
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
-                  <div className="ka qg">
+                  {/* <div className="ka qg">
                     <p className="ih ph vh">
                       Time Auctions (Unavailabe)
                       <span className="uh"> (optional) </span>
@@ -225,25 +243,25 @@ function CreateNFT() {
                   <div className="ga za xc">
                     <div className="pb qf hk/2">
                       <div className="ka">
-                        <label htmlFor="startDate" className="la xa eh oh vh">
+                        <label htmlFor="startDate" className="la xa text-slate-700 eh  oh ">
                           Starting date
                         </label>
-                        <input disabled type="date" name="startDate" id="startDate" className="pb ld qd wd ie sf wf eh oh uh di ii fj gj" />
+                        <input disabled type="date" name="startDate" id="startDate" className="pb ld qd wd  sf focus:bg-white text-black wf eh oh uh di ii  gj" />
                       </div>
                     </div>
                     <div className="pb qf hk/2">
                       <div className="ka">
-                        <label htmlFor="expireDate" className="la xa eh oh vh">
+                        <label htmlFor="expireDate" className="la  text-slate-700xa eh  oh ">
                           Expiration date
                         </label>
-                        <input type="time" disabled name="expireDate" id="expireDate" className="pb ld qd wd ie sf wf eh oh uh di ii fj gj" />
+                        <input type="time" disabled name="expireDate" id="expireDate" className="pb ld qd wd  sf focus:bg-white text-black wf eh oh uh di ii  gj" />
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
                   <div className="pt-2">
-                    <button onClick={step == 0? createListNFT : step==1?mint: list } disabled={uploading|| !connectedAddress} className="sm pb ld he sf xf ch eh nh vh di">
-                       {uploading ? "running ........." : step == 0? "upload" : step==1?"mint": "list"}
+                    <button onClick={step == 0? createListNFT : step==1?mint: step==2? approve:list } disabled={uploading|| !connectedAddress} className="sm pb ld he sf xf ch eh nh vh di">
+                       {uploading ? <span className="loading loading-infinity loading-xs"></span> : step == 0? "stage" : step==1?"mint":step==2?"approve": "list"}
                     </button>
                   </div>
                 </div>

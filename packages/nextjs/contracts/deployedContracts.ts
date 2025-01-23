@@ -7,7 +7,7 @@ const deployedContracts = {
   sepolia: {
     ArcCoin: {
       address:
-        "0x39042876854f9c897bedaeb3841f24ae94751010518677ad9a12e33476a7f3f",
+        "0x5b9fbb33c334d3c7a4fa526ee3d2afa301abd6751eb287eb49eafc295c1236b",
       abi: [
         {
           type: "struct",
@@ -498,7 +498,7 @@ const deployedContracts = {
     },
     ArcNft: {
       address:
-        "0x446ba4ead4c8b2b866b2442726dd4058a7ecb30ad614597b9c2bf0385c7dcd5",
+        "0x6e117d6014f6d1ca8c83cb4416bf786103a093722beab224e357f571e3ac4d1",
       abi: [
         {
           type: "impl",
@@ -1408,7 +1408,7 @@ const deployedContracts = {
     },
     Arcane: {
       address:
-        "0x68793cc16d4c1ae332aead0ed71d81c2ea3d7965531c23ecd3dd4c5752e9c21",
+        "0x297067b393cbfa2caace5c90a5d7baf432b0aa9f84c2e82eff49e22effaa53c",
       abi: [
         {
           type: "impl",
@@ -2301,7 +2301,7 @@ const deployedContracts = {
         },
       ],
       classHash:
-        "0x53c737340094566bdd29a1037083eac40fc2702ad6129f345f491ee8e980ab8",
+        "0x593f95f5eee50544173a2d22f0ac8043cac1bdbab789671712c2451125a4a53",
     },
   },
 } as const;
