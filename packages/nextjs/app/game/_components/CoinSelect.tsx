@@ -6,7 +6,7 @@ export default function CoinSelect({ coins, selected, setCoin }: { coins: string
         <>
             <div>
                 <label id="listbox-label" className="block text-sm/6 font-medium text-gray-900">Pay with </label>
-                <select value={selected} name="coins" onChange={setCoin} className="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pl-3 pr-2 text-left text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
+                <select value={selected} name="coins" onChange={setCoin} className="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pl-3 pr-2 text-left text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"  aria-expanded="true" aria-labelledby="listbox-label">
                     {
                         coins.map((coin) => {
                             return <option key={coin} value={coin}>

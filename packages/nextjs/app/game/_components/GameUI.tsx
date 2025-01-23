@@ -102,7 +102,7 @@ export default function GameUI() {
     useEffect(() => {
         setAssetPrice(asset_price?.toString()!)
         setgameId(Number(game_id?.toString()))
-    }, [asset_price])
+    }, [asset_price, game_id])
 
 
     const setSelectedAsset = (e: any) => {

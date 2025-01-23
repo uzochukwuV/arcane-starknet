@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import deployedContracts from "~~/contracts/deployedContracts";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-stark/useScaffoldReadContract";
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-stark/useScaffoldWriteContract";
-
+import Image from "next/image";
 type NFT = {
   description: string,
   name: string,
@@ -48,7 +48,7 @@ export default function NFTView({ token_id }: any) {
   return <div className="pb nf hk/2 _k/3 2xl:ud-w-1/4">
     <div className="ja nd qd bg-indigo-50/40   wd hf">
       <div className="f ka gd kd">
-        <img src={nft?.url} alt="auctions" className="pb" />
+        <Image src={nft?.url!} height={200} width={200} alt="auctions" className="pb" />
         <button className="e i r _a yc ld ee _f ag">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M6.99999 11.8709L6.15416 11.1009C3.14999 8.37675 1.16666 6.57425 1.16666 4.37508C1.16666 2.57258 2.57832 1.16675 4.37499 1.16675C5.38999 1.16675 6.36416 1.63925 6.99999 2.38008C7.63582 1.63925 8.60999 1.16675 9.62499 1.16675C11.4217 1.16675 12.8333 2.57258 12.8333 4.37508C12.8333 6.57425 10.85 8.37675 7.84582 11.1009L6.99999 11.8709Z" fill="#F85486"></path>
@@ -69,7 +69,7 @@ export default function NFTView({ token_id }: any) {
           <div className="pb">
             <div className="za yc">
               {/* <div className="ta hb pb fc ld">
-                                  <img src="src/images/auctions/creator-01.png" alt="creator" className="ib pb af bf" />
+                                  <Image src="src/images/auctions/creator-01.png" alt="creator" className="ib pb af bf" />
                                   </div> */}
               <div className="pb">
                 <h4 className="kh nh text-black">
@@ -133,7 +133,7 @@ function BuyNFT({ token_id, setBuying, token_cost }: any) {
   useEffect(() => {
     let payprice = pay == 1 ? Number(token_cost) * 100000000 / Number(ethprice?.toString()) : pay == 2 ? Number(token_cost) * 100000000 / Number(strkprice?.toString()) : Number(token_cost) * 100;
     setPrice(payprice)
-  }, [pay])
+  }, [pay, ethprice, strkprice, token_cost])
 
 
   const { sendAsync: ApproveEth } = useScaffoldWriteContract({

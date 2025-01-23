@@ -2,6 +2,7 @@
 import heroBackground from '../../../public/logo.svg';
 import hero from "../../../images/hero/hero-image.svg"
 import Link from 'next/link';
+import Image from 'next/image';
 
 
 export default function Hero() {
@@ -36,7 +37,7 @@ export default function Hero() {
 
           <div className="pb nf _k/2">
             <div className="ch">
-              <img src={hero} alt="hero image" className="da bc" />
+              <Image src={hero} width={200} height={200} alt="hero image" className="da bc" />
             </div>
           </div>
         </div>
